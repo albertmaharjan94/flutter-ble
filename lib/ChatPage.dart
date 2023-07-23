@@ -138,9 +138,6 @@ class _ChatPage extends State<ChatPage> {
                         for (int i = 0; i < currentVal.length; i++) {
                           if (i == index) {
                             message += currentVal[index] == "0" ? "1" : "0";
-                            setState(() {
-                              currentVal[index] == "0" ? "1" : "0";
-                            });
                           } else {
                             message += currentVal[i];
                           }
@@ -200,27 +197,16 @@ class _ChatPage extends State<ChatPage> {
 
     // Create message if there is new line character
     String dataString = String.fromCharCodes(buffer);
-    int index = buffer.indexOf(13);
-    if (~index != 0) {
-      String text = backspacesCounter > 0
-          ? _messageBuffer.substring(0, _messageBuffer.length - backspacesCounter)
-          : _messageBuffer + dataString.substring(0, index);
-      List<String> filteredLines = text
-          .split("\n")
-          .where((line) => line.startsWith("#") && line.split(",").length == 8)
-          .toList();
-      if (filteredLines.isNotEmpty) {
-        print(filteredLines.length);
-        setState(() {
-          buffers.insert(0, filteredLines[0]);
-          currentVal = buffers[0].substring(1).split(",");
-        });
-        buffers.removeLast();
-      }
-    } else {
-      _messageBuffer = (backspacesCounter > 0
-          ? _messageBuffer.substring(0, _messageBuffer.length - backspacesCounter)
-          : _messageBuffer + dataString);
+    List<String> filteredLines = dataString
+        .split("\n")
+        .where((line) => line.startsWith("#") && line.split(",").length == 8)
+        .toList();
+    if (filteredLines.isNotEmpty) {
+      setState(() {
+        buffers.insert(0, filteredLines[0]);
+        currentVal = buffers[0].substring(1).split(",");
+      });
+      buffers.removeLast();
     }
   }
 
