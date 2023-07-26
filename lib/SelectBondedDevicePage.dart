@@ -120,7 +120,10 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
             ))
         .toList();
     return Scaffold(
+
+      backgroundColor: Color(0XFF0a0e19),
       appBar: AppBar(
+        backgroundColor: Color(0XFF0a0e19),
         title: Text('Select device'),
         actions: <Widget>[
           _isDiscovering
